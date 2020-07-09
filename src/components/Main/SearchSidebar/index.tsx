@@ -17,7 +17,9 @@ const SearchSidebar: React.FC<SearchSidebarProps> = ({
 }) => {
   return (
     <S.Container>
-      <AiFillGithub size={24} />
+      <a href="https://github.com/RaphaelOliveiraMoura/glob-pattern-tester">
+        <AiFillGithub size={24} />
+      </a>
       <h1>Glob Pattern Tester</h1>
       <Input
         value={globPattern}

@@ -14,7 +14,7 @@ export const Container = styled.div`
     margin-bottom: 26px;
   }
 
-  & > svg {
+  & > a {
     position: fixed;
     top: 12px;
     left: 12px;

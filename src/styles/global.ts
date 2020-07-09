@@ -12,6 +12,11 @@ const GlobalStyles = createGlobalStyle`
   html, body, #__next {
     height: 100%;
   }
+
+  a {
+    text-decoration: none;
+    color: #333;
+  }
 `
 
 export default GlobalStyles
