@@ -6,7 +6,7 @@ import * as S from './styles'
 
 import Node from 'components/shared/Node'
 
-import mockRootFolder from 'mock/rootFolder'
+import { useNodeStructure } from 'store/nodeStructure'
 
 interface FolderStructureContainerProps {
   globPattern: string
@@ -15,13 +15,16 @@ interface FolderStructureContainerProps {
 const FolderStructureContainer: React.FC<FolderStructureContainerProps> = ({
   globPattern
 }) => {
+  const { root } = useNodeStructure()
+
   return (
     <S.Container>
-      <header style={{ display: 'none' }}>
-        <BsFileEarmarkPlus /> <BsFolderPlus />
+      <header>
+        <BsFileEarmarkPlus size={24} color="#fff" />
+        <BsFolderPlus size={24} color="#fff" />
       </header>
 
-      <Node node={mockRootFolder} globPattern={globPattern} />
+      <Node node={root} globPattern={globPattern} />
     </S.Container>
   )
 }

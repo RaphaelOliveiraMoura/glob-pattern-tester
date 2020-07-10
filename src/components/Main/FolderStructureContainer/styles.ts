@@ -7,7 +7,19 @@ export const Container = styled.div`
   width: 100%;
 
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  header {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 15%;
+
+    svg + svg {
+      margin-left: 15px;
+    }
+  }
 `

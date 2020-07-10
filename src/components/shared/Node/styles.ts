@@ -17,8 +17,15 @@ export const NodeItem = styled.article<NodeItemProps>`
   margin-top: 10px;
   margin-left: ${({ depth }) => `${depth * 30}px`};
 
-  strong {
+  span {
     margin-left: 4px;
+    background: transparent;
+    border: 0;
+    font-size: 22px;
     color: ${({ matchGlob }) => (matchGlob ? '#82D11D' : '#FFFFFF')};
+  }
+
+  span:focus {
+    color: #000;
   }
 `

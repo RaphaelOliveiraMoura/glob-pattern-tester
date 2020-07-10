@@ -6,6 +6,8 @@ import * as S from './styles'
 
 import Node from 'interfaces/Node'
 
+import { useNodeStructure } from 'store/nodeStructure'
+
 interface NodeComponentProps {
   node: Node
   globPattern: string
@@ -22,6 +24,8 @@ const NodeComponent: React.FC<NodeComponentProps> = ({
   globPattern,
   depth = 0
 }) => {
+  const inputRef = React.useRef<HTMLSpanElement>(null)
+
   const fileMatchWithGlobPattern =
     node.type === 'file' &&
     minimatch(node.path, globPattern, {
@@ -30,11 +34,34 @@ const NodeComponent: React.FC<NodeComponentProps> = ({
 
   const Icon = icons[node.type]
 
+  const { renameNode, removeNode } = useNodeStructure()
+
+  const handleBlur = () => {
+    if (inputRef.current) {
+      const textValue = inputRef.current.innerText
+      if (textValue === '') {
+        removeNode(node.path)
+      } else {
+        renameNode(node.path, textValue)
+      }
+    }
+  }
+
   return (
     <S.Container>
       <S.NodeItem matchGlob={fileMatchWithGlobPattern} depth={depth}>
         <Icon color={fileMatchWithGlobPattern ? '#82D11D' : '#fff'} />
-        <strong>{node.name}</strong>
+        <span
+          ref={inputRef}
+          role="input"
+          autoCorrect="off"
+          spellCheck="false"
+          onBlur={handleBlur}
+          contentEditable={node.type === 'file'}
+          suppressContentEditableWarning
+        >
+          {node.name}
+        </span>
       </S.NodeItem>
       {node.childrens &&
         node.childrens.map((children) => (
