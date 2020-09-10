@@ -12,6 +12,8 @@ interface NodeComponentProps {
   node: Node
   globPattern: string
   depth?: number
+  selectedFolderPath: string | null
+  setSelectedFolderPath: (path: string | null) => void
 }
 
 const icons = {
@@ -22,7 +24,9 @@ const icons = {
 const NodeComponent: React.FC<NodeComponentProps> = ({
   node,
   globPattern,
-  depth = 0
+  depth = 0,
+  selectedFolderPath,
+  setSelectedFolderPath
 }) => {
   const inputRef = React.useRef<HTMLSpanElement>(null)
 
@@ -31,6 +35,9 @@ const NodeComponent: React.FC<NodeComponentProps> = ({
     minimatch(node.path, globPattern, {
       dot: true
     })
+
+  const folderFocused =
+    node.type === 'directory' && node.path === selectedFolderPath
 
   const Icon = icons[node.type]
 
@@ -47,10 +54,35 @@ const NodeComponent: React.FC<NodeComponentProps> = ({
     }
   }
 
+  const onFolderFocus = (path: string) => {
+    if (node.type === 'directory') {
+      setSelectedFolderPath(path)
+    }
+  }
+
+  const onFolderBlur = () => {
+    if (node.type === 'directory') {
+      setSelectedFolderPath(null)
+    }
+  }
+
+  const getIconColor = () => {
+    if (fileMatchWithGlobPattern) return '#82D11D'
+    if (folderFocused) return '#a5a5a5e0'
+    return '#fff'
+  }
+
   return (
     <S.Container>
-      <S.NodeItem matchGlob={fileMatchWithGlobPattern} depth={depth}>
-        <Icon color={fileMatchWithGlobPattern ? '#82D11D' : '#fff'} />
+      <S.NodeItem
+        matchGlob={fileMatchWithGlobPattern}
+        depth={depth}
+        onBlur={onFolderBlur}
+        folderFocused={folderFocused}
+        onClick={() => onFolderFocus(node.path)}
+        isFolder={node.type === 'directory'}
+      >
+        <Icon color={getIconColor()} />
         <span
           ref={inputRef}
           role="input"
@@ -70,6 +102,8 @@ const NodeComponent: React.FC<NodeComponentProps> = ({
             node={children}
             globPattern={globPattern}
             depth={depth + 1}
+            selectedFolderPath={selectedFolderPath}
+            setSelectedFolderPath={setSelectedFolderPath}
           />
         ))}
     </S.Container>

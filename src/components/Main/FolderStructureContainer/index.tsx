@@ -10,10 +10,14 @@ import { useNodeStructure } from 'store/nodeStructure'
 
 interface FolderStructureContainerProps {
   globPattern: string
+  selectedFolderPath: string | null
+  setSelectedFolderPath: (path: string | null) => void
 }
 
 const FolderStructureContainer: React.FC<FolderStructureContainerProps> = ({
-  globPattern
+  globPattern,
+  selectedFolderPath,
+  setSelectedFolderPath
 }) => {
   const { root } = useNodeStructure()
 
@@ -24,7 +28,12 @@ const FolderStructureContainer: React.FC<FolderStructureContainerProps> = ({
         <BsFolderPlus size={24} color="#fff" />
       </header>
 
-      <Node node={root} globPattern={globPattern} />
+      <Node
+        node={root}
+        globPattern={globPattern}
+        selectedFolderPath={selectedFolderPath}
+        setSelectedFolderPath={setSelectedFolderPath}
+      />
     </S.Container>
   )
 }
