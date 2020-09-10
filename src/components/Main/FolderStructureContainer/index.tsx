@@ -19,12 +19,22 @@ const FolderStructureContainer: React.FC<FolderStructureContainerProps> = ({
   selectedFolderPath,
   setSelectedFolderPath
 }) => {
-  const { root } = useNodeStructure()
+  const { root, addNode } = useNodeStructure()
 
   return (
     <S.Container>
       <header>
-        <BsFileEarmarkPlus size={24} color="#fff" />
+        <BsFileEarmarkPlus
+          size={24}
+          color="#fff"
+          onClick={() =>
+            addNode({
+              name: 'new_file.js',
+              type: 'file',
+              path: selectedFolderPath || root.path
+            })
+          }
+        />
         <BsFolderPlus size={24} color="#fff" />
       </header>
 

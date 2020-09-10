@@ -4,13 +4,19 @@ import Node from 'interfaces/Node'
 
 import initialDataRootFolder from 'mock/rootFolder'
 
-import addNodeUtil from 'utils/addNode'
-import removeNodeUtil from 'utils/removeNode'
-import renameNodeUtil from 'utils/renameNode'
+import addNodeUtil from 'services/addNode'
+import removeNodeUtil from 'services/removeNode'
+import renameNodeUtil from 'services/renameNode'
+
+interface AddNodeParams {
+  name: string
+  path: string
+  type: 'directory' | 'file'
+}
 
 interface NodeStructureProps {
   root: Node
-  addNode: (node: Node, path: string) => void
+  addNode: (params: AddNodeParams) => void
   removeNode: (path: string) => void
   renameNode: (path: string, newName: string) => void
 }
@@ -23,8 +29,12 @@ export const NodeStructureProvider: React.FC = ({ children }) => {
   const [root, setRoot] = React.useState<Node>(initialDataRootFolder)
 
   const addNode = React.useCallback(
-    (node: Node, path: string) => {
+    ({ name, path, type }: AddNodeParams) => {
+      const nodePath = `${path}/${name}`
+      const node: Node = { name, path: nodePath, type, childrens: [] }
+
       const draft = { ...root }
+
       addNodeUtil({ nodeTree: root, nodeToAdd: node, path })
       setRoot(draft)
     },

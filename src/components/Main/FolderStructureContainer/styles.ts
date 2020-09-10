@@ -18,6 +18,10 @@ export const Container = styled.div`
     justify-content: flex-end;
     padding: 0 15%;
 
+    svg {
+      cursor: pointer;
+    }
+
     svg + svg {
       margin-left: 15px;
     }
